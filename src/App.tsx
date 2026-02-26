@@ -1,33 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ThemeProvider } from "@emotion/react"
+import themes from "./themes";
+import { AppBar, Button, Container, CssBaseline, Grid, TextField, Toolbar, Typography } from "@mui/material";
+import ContrastIcon from '@mui/icons-material/Contrast';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [isDark, setIsDark] = useState(false);
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ThemeProvider theme={isDark ? themes.dark : themes.light}>
+        <CssBaseline />
+        <AppBar position="relative" sx={{ marginBottom: "1rem" }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>GrowAvalia</Typography>
+            <Button color="inherit" variant="outlined" startIcon={isDark ? <LightModeIcon /> : <ContrastIcon />} onClick={() => setIsDark(!isDark)}>
+              Alterar Tema
+            </Button>
+          </Toolbar>
+        </AppBar>
+
+        <Container>
+          <form>
+            <Typography variant="h6" gutterBottom>Fazer Login</Typography>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <TextField fullWidth label="E-mail"></TextField>
+              </Grid>
+
+              <Grid size={{ xs: 12 }}>
+                <TextField fullWidth label="Senha"></TextField>
+              </Grid>
+
+              <Grid>
+                <Button type="submit" variant="contained">
+                  Login
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Container>
+      </ThemeProvider>
     </>
   )
 }
